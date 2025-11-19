@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Louns Beauty - Extension de cils, Blanchiment dentaire, Strass dentaire & Lifting colombien</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        :root {
+            --primary-pink: #E73CA8;
+            --primary-purple: #7A1A94;
+            --primary-gold: #D8A841;
+            --white: #FFFFFF;
+            --light-pink: #FDD7F1;
+            --light-beige: #F5E6D3;
+            --light-mauve: #E1C6FF;
+            --text-dark: #333333;
+            --text-light: #666666;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            background-color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary-purple);
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: var(--primary-pink);
+            position: relative;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--primary-gold);
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 500;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-pink);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-purple);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-secondary {
+            background-color: var(--primary-gold);
+            color: var(--white);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--primary-purple);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-center {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-purple);
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            color: var(--primary-pink);
+            margin-right: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            color: var(--text-dark);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-pink);
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-pink);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+
+        .social-header {
+            display: flex;
+            gap: 15px;
+            margin-left: 20px;
+        }
+
+        .social-header a {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--light-pink);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .social-header a:hover {
+            background-color: var(--primary-pink);
+            color: var(--white);
+            transform: translateY(-3px);
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--light-pink) 0%, var(--light-mauve) 100%);
+            padding: 150px 0 100px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="white" opacity="0.1"/></svg>');
+            background-size: cover;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--primary-purple);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: var(--text-light);
+        }
+
+        /* Services Section */
+        .services {
+            padding: 100px 0;
+            background-color: var(--white);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            justify-items: center;
+        }
+
+        .service-card {
+            background-color: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            max-width: 320px;
+            width: 100%;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-img {
+            height: 200px;
+            background-color: var(--light-pink);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-pink);
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .service-content {
+            padding: 25px;
+            text-align: center;
+        }
+
+        .service-content h3 {
+            color: var(--primary-purple);
+            margin-bottom: 15px;
+        }
+
+        .price {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-pink);
+            margin: 15px 0;
+        }
+
+        .deposit {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+
+        /* Video Gallery */
+        .video-gallery {
+            padding: 80px 0;
+            background-color: var(--light-beige);
+        }
+
+        .video-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .video-item {
+            width: 300px;
+            height: 200px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            background-color: var(--light-pink);
+            position: relative;
+        }
+
+        .video-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Social Media Section */
+        .social-media {
+            padding: 80px 0;
+            background: linear-gradient(135deg, var(--light-pink) 0%, var(--light-mauve) 100%);
+            text-align: center;
+        }
+
+        .social-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .social-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .social-icon:hover {
+            transform: translateY(-5px);
+        }
+
+        .social-icon a {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-pink);
+            font-size: 2rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .social-icon a:hover {
+            background-color: var(--primary-pink);
+            color: var(--white);
+        }
+
+        .social-name {
+            margin-top: 10px;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        /* Booking Section */
+        .booking {
+            padding: 100px 0;
+            background-color: var(--white);
+        }
+
+        .booking-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .booking-info {
+            padding-right: 20px;
+        }
+
+        .booking-info h2 {
+            text-align: left;
+        }
+
+        .booking-info h2:after {
+            left: 0;
+            transform: none;
+        }
+
+        .booking-info ul {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .booking-info li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .booking-info li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary-pink);
+            font-weight: bold;
+        }
+
+        .booking-form {
+            background-color: var(--light-pink);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-pink);
+        }
+
+        /* Calendar */
+        .calendar {
+            margin-top: 30px;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .calendar-day {
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .calendar-day:hover {
+            background-color: var(--light-mauve);
+        }
+
+        .calendar-day.available {
+            background-color: var(--light-pink);
+            color: var(--primary-pink);
+            font-weight: 500;
+        }
+
+        .calendar-day.booked {
+            background-color: #f0f0f0;
+            color: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Payment Section */
+        .payment {
+            padding: 80px 0;
+            background-color: var(--light-beige);
+            text-align: center;
+        }
+
+        .payment-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .payment-form {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            margin-top: 30px;
+        }
+
+        .payment-details {
+            text-align: left;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: var(--light-pink);
+            border-radius: 10px;
+        }
+
+        .payment-details p {
+            margin-bottom: 5px;
+        }
+
+        .card-element {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-purple);
+            color: var(--white);
+            padding: 60px 0 30px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-col h3 {
+            color: var(--white);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .footer-col p, .footer-col a {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .footer-col a:hover {
+            color: var(--primary-pink);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary-pink);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .modal h3 {
+            color: var(--primary-purple);
+            margin-bottom: 15px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .booking-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .booking-info {
+                padding-right: 0;
+                text-align: center;
+            }
+            
+            .booking-info h2 {
+                text-align: center;
+            }
+            
+            .booking-info h2:after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            .social-header {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: var(--white);
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: var(--shadow);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 10px 0;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.7rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero {
+                padding: 120px 0 80px;
+            }
+
+            .services, .booking, .payment, .social-media {
+                padding: 60px 0;
+            }
+
+            .video-gallery {
+                padding: 50px 0;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .social-icons {
+                gap: 15px;
+            }
+            
+            .social-icon a {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <i class="fas fa-spa"></i>
+                Louns Beauty
+            </a>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#accueil">Accueil</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#galerie">Galerie</a></li>
+                <li><a href="#reservation">Réservation</a></li>
+                <li><a href="#reseaux">Réseaux</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#reservation" class="btn btn-primary">Réserver</a></li>
+                <li class="social-header">
+                    <a href="https://instagram.com/lounsbeauty" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://facebook.com/lounsbeauty" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="accueil">
+        <div class="container hero-content">
+            <h1>Révélez votre beauté naturelle</h1>
+            <p>Extension de cils, Blanchiment dentaire, Strass dentaire & Lifting colombien à Loudun</p>
+            <a href="#reservation" class="btn btn-primary">Prendre rendez-vous</a>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-header">
+                <h2>Nos Services</h2>
+                <p>Découvrez nos prestations de beauté haut de gamme</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-img">
+                        <!-- REMPLACER PAR VOTRE IMAGE POUR EXTENSION DE CILS -->
+                        <img src="im0.jpg" alt="Extension de cils">
+                    </div>
+                    <div class="service-content">
+                        <h3>Extension de cils</h3>
+                        <p>Des extensions de cils professionnelles pour un regard intense et naturel. Nous proposons également des services à domicile.</p>
+                        <div class="price">À partir de 60€</div>
+                        <div class="deposit">Acompte: 20€</div>
+                        <a href="#reservation" class="btn btn-secondary" data-service="Extension de cils" data-price="60" data-deposit="20">Réserver</a>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-img">
+                        <!-- REMPLACER PAR VOTRE IMAGE POUR BLANCHIMENT DENTAIRE -->
+                        <img src="im1.jpg" alt="Blanchiment dentaire">
+                    </div>
+                    <div class="service-content">
+                        <h3>Blanchiment dentaire</h3>
+                        <p>Un sourire éclatant avec notre traitement de blanchiment dentaire professionnel et sûr.</p>
+                        <div class="price">À partir de 120€</div>
+                        <div class="deposit">Acompte: 40€</div>
+                        <a href="#reservation" class="btn btn-secondary" data-service="Blanchiment dentaire" data-price="120" data-deposit="40">Réserver</a>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-img">
+                        <!-- REMPLACER PAR VOTRE IMAGE POUR STRASS DENTAIRE -->
+                        <img src="im2.jpg" alt="Strass dentaire">
+                    </div>
+                    <div class="service-content">
+                        <h3>Strass dentaire</h3>
+                        <p>Ajoutez une touche de brillance à votre sourire avec nos strass dentaires de qualité.</p>
+                        <div class="price">À partir de 30€</div>
+                        <div class="deposit">Acompte: 10€</div>
+                        <a href="#reservation" class="btn btn-secondary" data-service="Strass dentaire" data-price="30" data-deposit="10">Réserver</a>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-img">
+                        <!-- REMPLACER PAR VOTRE IMAGE POUR LIFTING COLOMBIEN -->
+                        <img src="im3.jpg" alt="Lifting colombien">
+                    </div>
+                    <div class="service-content">
+                        <h3>Lifting colombien</h3>
+                        <p>Notre lifting colombien redéfinit et raffermit votre silhouette pour une apparence plus jeune.</p>
+                        <div class="price">À partir de 150€</div>
+                        <div class="deposit">Acompte: 50€</div>
+                        <a href="#reservation" class="btn btn-secondary" data-service="Lifting colombien" data-price="150" data-deposit="50">Réserver</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Gallery -->
+    <section class="video-gallery" id="galerie">
+        <div class="container">
+            <div class="section-header">
+                <h2>Nos Réalisations</h2>
+                <p>Découvrez quelques-unes de nos transformations</p>
+            </div>
+            <div class="video-container">
+                <div class="video-item">
+                    <!-- REMPLACER PAR VOTRE PREMIÈRE VIDÉO -->
+                    <video autoplay muted loop playsinline>
+                        <source src="videos2.mp4" type="video/mp4">
+                        Votre navigateur ne supporte pas la balise vidéo.
+                    </video>
+                </div>
+                <div class="video-item">
+                    <!-- REMPLACER PAR VOTRE DEUXIÈME VIDÉO -->
+                    <video autoplay muted loop playsinline>
+                        <source src="video3.mp4" type="video/mp4">
+                        Votre navigateur ne supporte pas la balise vidéo.
+                    </video>
+                </div>
+                <div class="video-item">
+                    <!-- REMPLACER PAR VOTRE TROISIÈME VIDÉO -->
+                    <video autoplay muted loop playsinline>
+                        <source src="video1.mp4" type="video/mp4">
+                        Votre navigateur ne supporte pas la balise vidéo.
+                    </video>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Media Section -->
+    <section class="social-media" id="reseaux">
+        <div class="container">
+            <div class="section-header">
+                <h2>Suivez-nous sur les réseaux</h2>
+                <p>Découvrez nos dernières créations et promotions</p>
+            </div>
+            <div class="social-container">
+                <div class="social-icons">
+                    <div class="social-icon">
+                        <a href="https://instagram.com/lounsbeauty" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <div class="social-name">Instagram</div>
+                    </div>
+                    <div class="social-icon">
+                        <a href="https://facebook.com/lounsbeauty" target="_blank">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <div class="social-name">Facebook</div>
+                    </div>
+                </div>
+                
+                <div class="btn-center">
+                    <a href="https://instagram.com/lounsbeauty" target="_blank" class="btn btn-primary">
+                        Voir plus sur Instagram
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section class="booking" id="reservation">
+        <div class="container">
+            <div class="section-header">
+                <h2>Réservez votre rendez-vous</h2>
+                <p>Confirmez votre créneau en payant votre acompte en ligne</p>
+            </div>
+            <div class="booking-container">
+                <div class="booking-info">
+                    <h2>Pourquoi réserver chez nous?</h2>
+                    <p>Chez Louns Beauty, nous nous engageons à vous offrir une expérience de beauté exceptionnelle. Pour garantir votre créneau, chaque rendez-vous doit être confirmé par le paiement d'un acompte.</p>
+                    <ul>
+                        <li>Extension de cils à domicile disponible</li>
+                        <li>Rendez-vous non confirmés annulés automatiquement</li>
+                        <li>Confirmation requise la veille du rendez-vous</li>
+                        <li>Paiement sécurisé en ligne</li>
+                        <li>Professionnelles certifiées et expérimentées</li>
+                        <li>Produits de haute qualité</li>
+                    </ul>
+                    <p><strong>Adresse :</strong> Loudun, France</p>
+                </div>
+                <div class="booking-form">
+                    <h3>Formulaire de réservation</h3>
+                    <form id="bookingForm">
+                        <div class="form-group">
+                            <label for="service">Service</label>
+                            <select class="form-control" id="service" required>
+                                <option value="">Sélectionnez un service</option>
+                                <option value="extension-cils">Extension de cils - 60€ (Acompte: 20€)</option>
+                                <option value="blanchiment-dentaire">Blanchiment dentaire - 120€ (Acompte: 40€)</option>
+                                <option value="strass-dentaire">Strass dentaire - 30€ (Acompte: 10€)</option>
+                                <option value="lifting-colombien">Lifting colombien - 150€ (Acompte: 50€)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="date">Date souhaitée</label>
+                            <input type="date" class="form-control" id="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Nom complet</label>
+                            <input type="text" class="form-control" id="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Téléphone</label>
+                            <input type="tel" class="form-control" id="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="location">Lieu de rendez-vous</label>
+                            <select class="form-control" id="location" required>
+                                <option value="">Choisir un lieu</option>
+                                <option value="institut">À l'institut (Loudun)</option>
+                                <option value="domicile">À domicile (Extension de cils uniquement)</option>
+                            </select>
+                        </div>
+                        <div class="btn-center">
+                            <button type="submit" class="btn btn-primary">Réserver maintenant</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="calendar">
+                <div class="section-header">
+                    <h2>Disponibilités</h2>
+                    <p>Consultez nos créneaux disponibles</p>
+                </div>
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <button id="prevMonth" class="btn btn-secondary"><i class="fas fa-chevron-left"></i></button>
+                        <h3 id="currentMonth">Mai 2023</h3>
+                        <button id="nextMonth" class="btn btn-secondary"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    <div class="calendar-grid" id="calendarGrid">
+                        <!-- Calendar days will be generated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Payment Section -->
+    <section class="payment" id="paiement">
+        <div class="container payment-container">
+            <div class="section-header">
+                <h2>Paiement sécurisé</h2>
+                <p>Confirmez votre réservation en payant votre acompte</p>
+            </div>
+            
+            <div class="payment-form">
+                <div class="payment-details">
+                    <h3>Détails de votre réservation</h3>
+                    <p><strong>Service:</strong> <span id="selected-service">Aucun service sélectionné</span></p>
+                    <p><strong>Prix total:</strong> <span id="total-price">0€</span></p>
+                    <p><strong>Montant de l'acompte:</strong> <span id="deposit-amount">0€</span></p>
+                </div>
+                
+                <form id="payment-form">
+                    <div class="form-group">
+                        <label for="card-element">Informations de carte de crédit</label>
+                        <div id="card-element" class="card-element">
+                            <!-- Stripe Card Element will be inserted here -->
+                        </div>
+                        <div id="card-errors" role="alert" style="color: #dc3545; margin-top: 5px;"></div>
+                    </div>
+                    
+                    <div class="btn-center">
+                        <button type="submit" class="btn btn-primary" id="submit-payment">
+                            <span id="button-text">Payer l'acompte</span>
+                            <span id="spinner" style="display: none;"><i class="fas fa-spinner fa-spin"></i></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <h3>Louns Beauty</h3>
+                    <p>Votre institut de beauté à Loudun, spécialisé en extension de cils, blanchiment dentaire, strass dentaire et lifting colombien.</p>
+                    <div class="social-links">
+                        <a href="https://instagram.com/lounsbeauty" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://facebook.com/lounsbeauty" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://wa.me/33123456789" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Nos Services</h3>
+                    <a href="#services">Extension de cils</a>
+                    <a href="#services">Blanchiment dentaire</a>
+                    <a href="#services">Strass dentaire</a>
+                    <a href="#services">Lifting colombien</a>
+                </div>
+                <div class="footer-col">
+                    <h3>Contact</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Loudun, France</p>
+                    <p><i class="fas fa-phone"></i> +33 1 23 45 67 89</p>
+                    <p><i class="fas fa-envelope"></i> contact@lounsbeauty.fr</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Horaires</h3>
+                    <p>Lundi - Vendredi: 9h00 - 19h00</p>
+                    <p>Samedi: 9h00 - 17h00</p>
+                    <p>Dimanche: Fermé</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Louns Beauty. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <i class="fas fa-check-circle" style="font-size: 4rem; color: var(--primary-pink); margin-bottom: 20px;"></i>
+            <h3>Paiement réussi!</h3>
+            <p>Votre réservation a été confirmée. Vous recevrez un email de confirmation dans quelques instants.</p>
+            <div class="btn-center">
+                <button class="btn btn-primary" id="closeModal">Fermer</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile Menu Toggle
+        document.querySelector('.mobile-menu').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        // Service selection from cards
+        document.querySelectorAll('.service-card .btn-secondary').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const service = this.getAttribute('data-service');
+                const price = this.getAttribute('data-price');
+                const deposit = this.getAttribute('data-deposit');
+                
+                // Update the booking form
+                document.getElementById('service').value = service.toLowerCase().replace(' ', '-');
+                
+                // Update payment details
+                document.getElementById('selected-service').textContent = service;
+                document.getElementById('total-price').textContent = price + '€';
+                document.getElementById('deposit-amount').textContent = deposit + '€';
+                
+                // Scroll to booking section
+                document.getElementById('reservation').scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Calendar Functionality
+        const monthNames = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
+            "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
+        ];
+
+        let currentDate = new Date();
+        let currentMonth = currentDate.getMonth();
+        let currentYear = currentDate.getFullYear();
+
+        function generateCalendar(month, year) {
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const daysInMonth = lastDay.getDate();
+            const startingDay = firstDay.getDay();
+
+            document.getElementById('currentMonth').textContent = `${monthNames[month]} ${year}`;
+
+            const calendarGrid = document.getElementById('calendarGrid');
+            calendarGrid.innerHTML = '';
+
+            // Add day headers
+            const dayNames = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
+            dayNames.forEach(day => {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                dayElement.textContent = day;
+                calendarGrid.appendChild(dayElement);
+            });
+
+            // Add empty cells for days before the first day of the month
+            for (let i = 0; i < startingDay; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day';
+                calendarGrid.appendChild(emptyDay);
+            }
+
+            // Add days of the month
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                dayElement.textContent = day;
+
+                // Mark some days as available (for demo purposes)
+                if (Math.random() > 0.5) {
+                    dayElement.classList.add('available');
+                } else {
+                    dayElement.classList.add('booked');
+                }
+
+                calendarGrid.appendChild(dayElement);
+            }
+        }
+
+        // Initialize calendar
+        generateCalendar(currentMonth, currentYear);
+
+        // Previous month button
+        document.getElementById('prevMonth').addEventListener('click', function() {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            generateCalendar(currentMonth, currentYear);
+        });
+
+        // Next month button
+        document.getElementById('nextMonth').addEventListener('click', function() {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            generateCalendar(currentMonth, currentYear);
+        });
+
+        // Booking Form Submission
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get selected service details
+            const serviceSelect = document.getElementById('service');
+            const selectedOption = serviceSelect.options[serviceSelect.selectedIndex];
+            const serviceText = selectedOption.text;
+            
+            // Extract price and deposit from the option text
+            const priceMatch = serviceText.match(/(\d+)€/);
+            const depositMatch = serviceText.match(/Acompte: (\d+)€/);
+            
+            if (priceMatch && depositMatch) {
+                const price = priceMatch[1];
+                const deposit = depositMatch[1];
+                
+                // Update payment details
+                document.getElementById('selected-service').textContent = serviceText.split(' - ')[0];
+                document.getElementById('total-price').textContent = price + '€';
+                document.getElementById('deposit-amount').textContent = deposit + '€';
+                
+                // Scroll to payment section
+                document.getElementById('paiement').scrollIntoView({ behavior: 'smooth' });
+            } else {
+                alert('Veuillez sélectionner un service valide.');
+            }
+        });
+
+        // Stripe Payment Integration
+        const stripe = Stripe('pk_test_51JABC1234567890'); // Replace with your actual publishable key
+        const elements = stripe.elements();
+        const cardElement = elements.create('card', {
+            style: {
+                base: {
+                    fontSize: '16px',
+                    color: '#424770',
+                    '::placeholder': {
+                        color: '#aab7c4',
+                    },
+                },
+            },
+        });
+
+        cardElement.mount('#card-element');
+
+        const cardErrors = document.getElementById('card-errors');
+        cardElement.addEventListener('change', ({error}) => {
+            if (error) {
+                cardErrors.textContent = error.message;
+            } else {
+                cardErrors.textContent = '';
+            }
+        });
+
+        const paymentForm = document.getElementById('payment-form');
+        paymentForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            
+            const submitButton = document.getElementById('submit-payment');
+            const buttonText = document.getElementById('button-text');
+            const spinner = document.getElementById('spinner');
+            
+            // Show loading state
+            submitButton.disabled = true;
+            buttonText.style.display = 'none';
+            spinner.style.display = 'inline-block';
+            
+            const depositAmount = document.getElementById('deposit-amount').textContent;
+            const amount = parseInt(depositAmount) * 100; // Convert to cents
+            
+            try {
+                // Create payment intent on your server (in a real implementation)
+                // For this demo, we'll simulate the process
+                
+                // In a real implementation, you would call your server to create a payment intent
+                // const {clientSecret} = await fetch('/create-payment-intent', {
+                //     method: 'POST',
+                //     headers: {
+                //         'Content-Type': 'application/json',
+                //     },
+                //     body: JSON.stringify({
+                //         amount: amount,
+                //         currency: 'eur',
+                //     }),
+                // }).then(r => r.json());
+                
+                // For demo purposes, we'll simulate a successful payment
+                setTimeout(() => {
+                    // Show success modal
+                    document.getElementById('successModal').style.display = 'flex';
+                    
+                    // Reset form
+                    paymentForm.reset();
+                    cardElement.clear();
+                    
+                    // Reset button state
+                    submitButton.disabled = false;
+                    buttonText.style.display = 'inline-block';
+                    spinner.style.display = 'none';
+                }, 2000);
+                
+            } catch (error) {
+                cardErrors.textContent = 'Une erreur est survenue lors du traitement de votre paiement.';
+                
+                // Reset button state
+                submitButton.disabled = false;
+                buttonText.style.display = 'inline-block';
+                spinner.style.display = 'none';
+            }
+        });
+
+        // Close modal
+        document.getElementById('closeModal').addEventListener('click', function() {
+            document.getElementById('successModal').style.display = 'none';
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    document.querySelector('.nav-links').classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
